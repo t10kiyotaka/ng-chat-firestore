@@ -1,4 +1,12 @@
 import { Component } from '@angular/core';
+import { Comment } from './class/chat';
+
+
+const COMMENTS: Comment[] = [
+  { name: 'Suzuki Taro', content: 'This is comment 1.' },
+  { name: 'Suzuki Taro', content: 'This is comment 2.' },
+  { name: 'Suzuki Taro', content: 'This is comment 3.' },
+]
 
 @Component({
   selector: 'app-root',
@@ -6,5 +14,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'chat';
+  public content = '';
+  public comments = COMMENTS;
+
 }

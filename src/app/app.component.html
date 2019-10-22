@@ -4,20 +4,24 @@
       NgChat
     </div>
     <div class="card-body">
-      <div class="media">
-        <div class="media-left media-icon">
-          <a href="#" class="icon-rounded">S</a>
+
+      <ng-container *ngFor="let comment of comments">
+        <div class="media">
+          <div class="media-left media-icon">
+            <a href="#" class="icon-rounded">S</a>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">{{ comment.name }} Date:2016/09/01</h4>
+            <div>{{ comment.content }}</div>
+          </div>
         </div>
-        <div class="media-body">
-          <h4 class="media-heading">Suzuki Taro Date:2016/09/01</h4>
-          <div>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</div>
-        </div>
-      </div>
-      <hr>
+        <hr>
+      </ng-container>
+
       <div class="media">
         <div class="media-body">
           <h4 class="media-heading">Tanaka Jiro Date:2016/09/01</h4>
-          <div>この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</div>
+          <div>{{ content }}</div>
         </div>
         <div class="media-right media-icon">
           <a href="#" class="icon-rounded">T</a>
@@ -29,7 +33,10 @@
   <section>
     <form class="chart-form">
       <mat-form-field class="form-full-width">
-        <textarea matInput placeholder="Leave a comment"></textarea>
+        <textarea matInput
+          placeholder="Leave a comment"
+          name="comment"
+          [(ngModel)]="content"></textarea>
       </mat-form-field>
       <button mat-raised-button color="primary">Send</button>
     </form>
