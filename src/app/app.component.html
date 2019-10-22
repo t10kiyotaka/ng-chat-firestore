@@ -7,31 +7,29 @@
 
       <ng-container *ngFor="let comment of comments">
         <div class="media">
-          <div class="media-left media-icon">
-            <a href="#" class="icon-rounded">S</a>
+
+          <div class="media-left media-icon" *ngIf="!isCurrentUser(comment.user.uid)">
+            <a href="#" class="icon-rounded">{{ comment.initial }}</a>
           </div>
+
           <div class="media-body">
-            <h4 class="media-heading">{{ comment.name }} Date:2016/09/01</h4>
+            <h4 class="media-heading">{{ comment.user.name }} Date:2016/09/01</h4>
             <div>{{ comment.content }}</div>
           </div>
+
+          <div class="media-right media-icon" *ngIf="isCurrentUser(comment.user.uid)">
+            <a href="#" class="icon-rounded">{{ comment.initial }}</a>
+          </div>
+
         </div>
         <hr>
       </ng-container>
 
-      <div class="media">
-        <div class="media-body">
-          <h4 class="media-heading">Tanaka Jiro Date:2016/09/01</h4>
-          <div>{{ content }}</div>
-        </div>
-        <div class="media-right media-icon">
-          <a href="#" class="icon-rounded">T</a>
-        </div>
-      </div>
     </div>
   </section>
 
   <section>
-    <form class="chart-form">
+    <form class="chart-form" (ngSubmit)="addComment(content)">
       <mat-form-field class="form-full-width">
         <textarea matInput
           placeholder="Leave a comment"
