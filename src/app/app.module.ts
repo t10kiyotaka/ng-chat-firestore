@@ -7,6 +7,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatInputModule, MatSliderModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { ChatDatePipe } from './pipe/chat-date.pipe';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
@@ -20,7 +24,10 @@ import { ChatDatePipe } from './pipe/chat-date.pipe';
     MatSliderModule,
     MatInputModule,
     MatButtonModule,
-    FormsModule
+    FormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireAuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]

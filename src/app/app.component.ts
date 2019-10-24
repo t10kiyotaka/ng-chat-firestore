@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Comment, User } from './class/chat';
+import { Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 
 const CURRENT_USER: User = new User(1, 'Tanaka Taro');
@@ -22,6 +24,15 @@ export class AppComponent {
   content = '';
   comments = COMMENTS;
   currentUser = CURRENT_USER;
+  item: Observable<Comment>;
+
+  constructor(db: AngularFirestore) {
+    this.item = db
+      .collection('comments')
+      .doc<Comment>('item')
+      .valueChanges();
+  }
+
 
 
   isCurrentUser(targetUid: number): boolean {
