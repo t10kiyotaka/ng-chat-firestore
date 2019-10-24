@@ -6,10 +6,12 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatInputModule, MatSliderModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
+import { ChatDatePipe } from './pipe/chat-date.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ChatDatePipe
   ],
   imports: [
     BrowserModule,
