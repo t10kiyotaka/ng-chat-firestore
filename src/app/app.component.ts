@@ -3,6 +3,7 @@ import { Comment, User } from './class/chat';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { MatSnackBar } from '@angular/material';
 
 const CURRENT_USER: User = new User(1, 'Tanaka Taro');
 const ANOTHER_USER: User = new User(2, 'Suzuki Jiro');
@@ -19,7 +20,8 @@ export class AppComponent {
   currentUser = CURRENT_USER;
   comments: Observable<Comment[]>;
 
-  constructor(private db: AngularFirestore) {
+  constructor(private db: AngularFirestore,
+              private snakBar: MatSnackBar) {
     this.comments = db
       .collection('comments', ref => {
         return ref.orderBy('date', 'asc');
@@ -67,7 +69,7 @@ export class AppComponent {
         date: comment.date
       })
       .then(() => {
-        alert('Successfully updated a comment!');
+        this.openSnackBar('Successfully Updated a comment.', 'close');
         comment.editFlag = false;
       });
   }
@@ -84,8 +86,14 @@ export class AppComponent {
         .doc(key)
         .delete()
         .then(() => {
-          alert('Successfully Deleted a comment.');
+          this.openSnackBar('Successfully Deleted a comment.', 'close');
         });
     }
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snakBar.open(message, action, {
+      duration: 3000
+    });
   }
 }

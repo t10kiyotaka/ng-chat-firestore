@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatInputModule, MatSliderModule } from '@angular/material';
+import { MatButtonModule, MatInputModule, MatSliderModule, MatSnackBarModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { ChatDatePipe } from './pipe/chat-date.pipe';
 import { AngularFireModule } from '@angular/fire';
@@ -24,6 +24,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     MatSliderModule,
     MatInputModule,
     MatButtonModule,
+    MatSnackBarModule,
     FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
