@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Comment, User } from './class/chat';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -14,11 +14,12 @@ const ANOTHER_USER: User = new User(2, 'Suzuki Jiro');
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   content = '';
   contentBeforeEdit = '';
   currentUser = CURRENT_USER;
   comments: Observable<Comment[]>;
+
 
   constructor(private db: AngularFirestore,
               private snakBar: MatSnackBar) {
@@ -39,6 +40,10 @@ export class AppComponent {
       );
   }
 
+  ngOnInit() {
+    document.getElementById('comment').focus();
+  }
+
 
 
   isCurrentUser(targetUid: number): boolean {
@@ -52,6 +57,7 @@ export class AppComponent {
         .collection('comments')
         .add(new Comment(this.currentUser, comment).deserialize());
       this.content = '';
+      document.getElementById('comment').focus();
     }
   }
 

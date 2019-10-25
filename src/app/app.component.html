@@ -60,6 +60,7 @@
     <form class="chart-form" (ngSubmit)="addComment($event, content)">
       <mat-form-field class="form-full-width">
         <textarea matInput
+                  id="comment"
           placeholder="Leave a comment"
           name="comment"
           [(ngModel)]="content"></textarea>
