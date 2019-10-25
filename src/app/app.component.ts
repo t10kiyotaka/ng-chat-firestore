@@ -58,7 +58,7 @@ export class AppComponent {
     this.contentBeforeEdit = comment.content;
   }
 
-  saveEditComment(comment: Comment) {
+  updateComment(comment: Comment) {
     this.db
       .collection('comments')
       .doc(comment.key)
@@ -75,5 +75,17 @@ export class AppComponent {
   cancelEditComment(comment: Comment) {
     comment.editFlag = false;
     comment.content = this.contentBeforeEdit;
+  }
+
+  deleteComment(key: string) {
+    const isDelete = confirm('Delete this comment?').valueOf();
+    if (isDelete) {
+      this.db.collection('comments')
+        .doc(key)
+        .delete()
+        .then(() => {
+          alert('Successfully Deleted a comment.');
+        });
+    }
   }
 }

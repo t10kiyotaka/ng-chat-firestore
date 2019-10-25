@@ -23,7 +23,7 @@
                 *ngIf="comment.editFlag"
                 mat-button style="color: teal;"
                 (click)="cancelEditComment(comment)">Cancel Edit</button>
-              <button mat-button color="accent">Delete</button>
+              <button mat-button color="accent" (click)="deleteComment(comment.key)">Delete</button>
             </h4>
 
 <!--            Toggle edit field by editFlag-->
@@ -39,7 +39,7 @@
                   name="editComment"></textarea>
               </mat-form-field>
               <div class="edit-buttons">
-                <button mat-button color="primary" (click)="saveEditComment(comment)">Save</button>
+                <button mat-button color="primary" (click)="updateComment(comment)">Save</button>
               </div>
             </ng-container>
 
