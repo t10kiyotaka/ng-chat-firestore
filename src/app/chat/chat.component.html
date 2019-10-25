@@ -1,0 +1,73 @@
+<div class="page">
+  <section class="card">
+    <div class="card-header">
+      NgChat
+    </div>
+    <div class="card-body">
+
+      <ng-container *ngFor="let comment of comments | async">
+        <div class="media">
+
+          <div class="media-left media-icon" *ngIf="!isCurrentUser(comment.user.uid)">
+            <a href="#" class="icon-rounded">{{ comment.initial }}</a>
+          </div>
+
+          <div class="media-body">
+            <h4 class="media-heading">
+              {{ comment.user.name }} Date: {{ comment.date | chatDate }}
+              <button
+                *ngIf="!comment.editFlag"
+                mat-button color="primary"
+                (click)="toggleEditFlag(comment)">Edit</button>
+              <button
+                *ngIf="comment.editFlag"
+                mat-button style="color: teal;"
+                (click)="cancelEditComment(comment)">Cancel Edit</button>
+              <button mat-button color="accent" (click)="deleteComment(comment.key)">Delete</button>
+            </h4>
+
+            <!--            Toggle edit field by editFlag-->
+            <ng-container *ngIf="!comment.editFlag">
+              {{ comment.content }}
+            </ng-container>
+
+            <ng-container *ngIf="comment.editFlag">
+              <mat-form-field class="form-full-width">
+                <textarea
+                  matInput
+                  [(ngModel)]="comment.content"
+                  name="editComment"></textarea>
+              </mat-form-field>
+              <div class="edit-buttons">
+                <button mat-button color="primary" (click)="updateComment(comment)">Save</button>
+              </div>
+            </ng-container>
+
+          </div>
+
+          <div class="media-right media-icon" *ngIf="isCurrentUser(comment.user.uid)">
+            <a href="#" class="icon-rounded">{{ comment.initial }}</a>
+          </div>
+
+        </div>
+        <hr>
+      </ng-container>
+
+    </div>
+  </section>
+
+  <section>
+    <form class="chart-form" (ngSubmit)="addComment($event, content)">
+      <mat-form-field class="form-full-width">
+        <textarea matInput
+                  id="comment"
+                  placeholder="Leave a comment"
+                  name="comment"
+                  [(ngModel)]="content"></textarea>
+      </mat-form-field>
+      <button mat-raised-button color="primary">Send</button>
+    </form>
+
+
+  </section>
+</div>
