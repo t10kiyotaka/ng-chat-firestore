@@ -8,6 +8,10 @@ export class User {
     this.uid = uid;
     this.name = name;
   }
+
+  desirialize() {
+    return Object.assign({}, this);
+  }
 }
 
 
@@ -24,4 +28,13 @@ export class Comment {
     this.date = +moment();
   }
 
+  desirialize() {
+    this.user = this.user.desirialize();
+    return Object.assign({}, this);
+  }
+
+  setData(date: number): Comment {
+    this.date = date;
+    return this;
+  }
 }

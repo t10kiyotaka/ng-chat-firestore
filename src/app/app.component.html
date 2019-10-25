@@ -5,7 +5,7 @@
     </div>
     <div class="card-body">
 
-      <ng-container *ngFor="let comment of comments">
+      <ng-container *ngFor="let comment of comments | async">
         <div class="media">
 
           <div class="media-left media-icon" *ngIf="!isCurrentUser(comment.user.uid)">
@@ -26,21 +26,11 @@
         <hr>
       </ng-container>
 
-      <div class="media">
-        <div class="media-left">
-          <a href="#" class="icon-rounded">{{ (item | async)?.initial }}</a>
-        </div>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading">{{ (item | async)?.user.name }}</h4>
-        <div>{{ (item | async)?.content }}</div>
-      </div>
-
     </div>
   </section>
 
   <section>
-    <form class="chart-form" (ngSubmit)="addComment(content)">
+    <form class="chart-form" (ngSubmit)="addComment($event, content)">
       <mat-form-field class="form-full-width">
         <textarea matInput
           placeholder="Leave a comment"

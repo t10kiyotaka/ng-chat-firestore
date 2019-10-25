@@ -1,19 +1,12 @@
 import { Component } from '@angular/core';
 import { Comment, User } from './class/chat';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
-
 
 const CURRENT_USER: User = new User(1, 'Tanaka Taro');
 const ANOTHER_USER: User = new User(2, 'Suzuki Jiro');
 
-const COMMENTS: Comment[] = [
-  new Comment(ANOTHER_USER, 'This is the first comment by Suzuki.'),
-  new Comment(ANOTHER_USER, 'This is the second comment by Suzuki.'),
-  new Comment(CURRENT_USER, 'This is the first comment by Tanaka.'),
-  new Comment(ANOTHER_USER, 'This is the third comment by Suzuki.'),
-  new Comment(CURRENT_USER, 'This is the first comment by Tanaka.'),
-]
 
 @Component({
   selector: 'app-root',
@@ -22,15 +15,24 @@ const COMMENTS: Comment[] = [
 })
 export class AppComponent {
   content = '';
-  comments = COMMENTS;
   currentUser = CURRENT_USER;
-  item: Observable<Comment>;
+  comments: Observable<Comment[]>;
 
-  constructor(db: AngularFirestore) {
-    this.item = db
-      .collection('comments')
-      .doc<Comment>('item')
-      .valueChanges();
+  constructor(private db: AngularFirestore) {
+    this.comments = db
+      .collection('comments', ref => {
+        return ref.orderBy('date', 'asc');
+      })
+      .snapshotChanges()
+      .pipe(
+        map(actions => actions.map(action => {
+          // return comment with date
+          const data = action.payload.doc.data() as Comment;
+          const commentData = new Comment(data.user, data.content);
+          commentData.setData(data.date);
+          return commentData;
+        }))
+      );
   }
 
 
@@ -39,9 +41,12 @@ export class AppComponent {
     return this.currentUser.uid === targetUid;
   }
 
-  addComment(comment: string) {
+  addComment(e: Event, comment: string) {
+    e.preventDefault();
     if (comment) {
-      this.comments.push(new Comment(this.currentUser, comment));
+      this.db
+        .collection('comments')
+        .add(new Comment(this.currentUser, comment).desirialize());
       this.content = '';
     }
   }
