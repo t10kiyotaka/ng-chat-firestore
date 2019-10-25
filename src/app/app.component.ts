@@ -15,6 +15,7 @@ const ANOTHER_USER: User = new User(2, 'Suzuki Jiro');
 })
 export class AppComponent {
   content = '';
+  contentBeforeEdit = '';
   currentUser = CURRENT_USER;
   comments: Observable<Comment[]>;
 
@@ -28,8 +29,9 @@ export class AppComponent {
         map(actions => actions.map(action => {
           // return comment with date
           const data = action.payload.doc.data() as Comment;
+          const key = action.payload.doc.id;
           const commentData = new Comment(data.user, data.content);
-          commentData.setData(data.date);
+          commentData.setData(data.date, key);
           return commentData;
         }))
       );
@@ -46,8 +48,32 @@ export class AppComponent {
     if (comment) {
       this.db
         .collection('comments')
-        .add(new Comment(this.currentUser, comment).desirialize());
+        .add(new Comment(this.currentUser, comment).deserialize());
       this.content = '';
     }
+  }
+
+  toggleEditFlag(comment: Comment) {
+    comment.editFlag = !comment.editFlag;
+    this.contentBeforeEdit = comment.content;
+  }
+
+  saveEditComment(comment: Comment) {
+    this.db
+      .collection('comments')
+      .doc(comment.key)
+      .update({
+        content: comment.content,
+        date: comment.date
+      })
+      .then(() => {
+        alert('Successfully updated a comment!');
+        comment.editFlag = false;
+      });
+  }
+
+  cancelEditComment(comment: Comment) {
+    comment.editFlag = false;
+    comment.content = this.contentBeforeEdit;
   }
 }

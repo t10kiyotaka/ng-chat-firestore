@@ -14,8 +14,35 @@
 
           <div class="media-body">
             <h4 class="media-heading">
-              {{ comment.user.name }} Date: {{ comment.date | chatDate }}</h4>
-            <div>{{ comment.content }}</div>
+              {{ comment.user.name }} Date: {{ comment.date | chatDate }}
+              <button
+                *ngIf="!comment.editFlag"
+                mat-button color="primary"
+                (click)="toggleEditFlag(comment)">Edit</button>
+              <button
+                *ngIf="comment.editFlag"
+                mat-button style="color: teal;"
+                (click)="cancelEditComment(comment)">Cancel Edit</button>
+              <button mat-button color="accent">Delete</button>
+            </h4>
+
+<!--            Toggle edit field by editFlag-->
+            <ng-container *ngIf="!comment.editFlag">
+              {{ comment.content }}
+            </ng-container>
+
+            <ng-container *ngIf="comment.editFlag">
+              <mat-form-field class="form-full-width">
+                <textarea
+                  matInput
+                  [(ngModel)]="comment.content"
+                  name="editComment"></textarea>
+              </mat-form-field>
+              <div class="edit-buttons">
+                <button mat-button color="primary" (click)="saveEditComment(comment)">Save</button>
+              </div>
+            </ng-container>
+
           </div>
 
           <div class="media-right media-icon" *ngIf="isCurrentUser(comment.user.uid)">

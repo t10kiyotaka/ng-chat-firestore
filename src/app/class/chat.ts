@@ -9,7 +9,7 @@ export class User {
     this.name = name;
   }
 
-  desirialize() {
+  deserialize() {
     return Object.assign({}, this);
   }
 }
@@ -20,6 +20,8 @@ export class Comment {
   initial: string;
   content: string;
   date: number;
+  key?: string;
+  editFlag?: boolean;
 
   constructor(user: User, content: string) {
     this.user = user;
@@ -28,13 +30,14 @@ export class Comment {
     this.date = +moment();
   }
 
-  desirialize() {
-    this.user = this.user.desirialize();
+  deserialize() {
+    this.user = this.user.deserialize();
     return Object.assign({}, this);
   }
 
-  setData(date: number): Comment {
+  setData(date: number, key: string): Comment {
     this.date = date;
+    this.key = key;
     return this;
   }
 }
