@@ -1,12 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ChatDatePipe } from './pipe/chat-date.pipe';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    ChatDatePipe
+  ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
+  ],
+  exports: [
+    CommonModule,
+    FormsModule,
+    ChatDatePipe
   ]
 })
 export class SharedModule { }
