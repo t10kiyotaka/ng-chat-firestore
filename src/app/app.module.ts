@@ -18,7 +18,7 @@ import { PageNotFoundComponent } from './error/page-not-found/page-not-found.com
   declarations: [
     AppComponent,
     ChatComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

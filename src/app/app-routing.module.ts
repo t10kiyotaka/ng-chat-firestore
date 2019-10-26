@@ -5,6 +5,7 @@ import { PageNotFoundComponent } from './error/page-not-found/page-not-found.com
 
 
 const routes: Routes = [
+  { path: 'account', loadChildren: './account/account.module#AccountModule' },
   { path: '', component: ChatComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
