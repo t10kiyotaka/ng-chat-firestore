@@ -2,7 +2,15 @@
   <mat-toolbar-row>
     <span>NgChat</span>
     <span class="example-spacer"></span>
-    <a routerLink="account/login"><span class="white">Login</span></a>
+
+
+    <a routerLink="/account/login" *ngIf="!isLogin">
+      <span class="white">Login</span></a>
+
+    <a routerLink="/account/logout"
+       (click)="logout()" *ngIf="isLogin">
+      <span class="white">Logout</span></a>
+
   </mat-toolbar-row>
 </mat-toolbar>
 

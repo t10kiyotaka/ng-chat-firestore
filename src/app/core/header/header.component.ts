@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from '../service/session.service';
+import { Session } from '../../class/session';
 
 @Component({
   selector: 'app-header',
@@ -13,8 +14,16 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isLogin = this.sessionService.isLogin;
-    console.log('header-component-login' + this.isLogin);
+    this.sessionService.sessionState.subscribe((session: Session) => {
+      if (session) {
+        this.isLogin = session.isLogin;
+      }
+      console.log('session: ' + this.isLogin);
+    });
+  }
+
+  logout() {
+    this.sessionService.logout();
   }
 
 

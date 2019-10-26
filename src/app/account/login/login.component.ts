@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { SessionService } from '../../core/service/session.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ export class LoginComponent implements OnInit {
   hide = true;
 
 
-  constructor() {
+  constructor(private sessionService: SessionService) {
   }
 
   ngOnInit() {
@@ -23,5 +24,8 @@ export class LoginComponent implements OnInit {
         '';
   }
 
+  login() {
+    this.sessionService.login();
+  }
 
 }
