@@ -10,13 +10,15 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { ChatComponent } from './chat/chat.component';
 import { SharedModule } from './shared/shared.module';
-import { MatModule } from './mat.module';
+import { MatModule } from './mat/mat.module';
 import { CoreModule } from './core/core.module';
+import { PageNotFoundComponent } from './error/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChatComponent
+    ChatComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
