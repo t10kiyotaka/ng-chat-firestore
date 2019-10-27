@@ -3,10 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { ChatComponent } from './chat/chat.component';
 import { PageNotFoundComponent } from './error/page-not-found/page-not-found.component';
 import { AuthGuard } from './core/guard/auth.guard';
+import { LoginGuard } from './core/guard/login.guard';
 
 
 const routes: Routes = [
-  { path: 'account', loadChildren: './account/account.module#AccountModule' },
+  { path: 'account', loadChildren: './account/account.module#AccountModule',
+    canActivate: [LoginGuard] },
   { path: '', component: ChatComponent, canActivate: [AuthGuard] },
   { path: '**', component: PageNotFoundComponent }
 ];
