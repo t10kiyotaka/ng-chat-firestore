@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { Session } from '../../class/session';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Password } from '../../class/password';
+import { User } from '../../class/user';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -20,10 +20,10 @@ export class SessionService {
               private angularFireAuth: AngularFireAuth) {
   }
 
-  login(account: Password) {
+  login(user: User) {
     this.angularFireAuth
       .auth
-      .signInWithEmailAndPassword(account.email, account.password)
+      .signInWithEmailAndPassword(user.email, user.password)
       .then(auth => {
         // Check whether email confirmation is done.
         if (!auth.user.emailVerified) {
@@ -58,10 +58,10 @@ export class SessionService {
       });
   }
 
-  signup(account: Password) {
+  signup(user: User) {
     this.angularFireAuth
       .auth
-      .createUserWithEmailAndPassword(account.email, account.password)
+      .createUserWithEmailAndPassword(user.email, user.password)
       .then(auth => auth.user.sendEmailVerification())
       .then(() => alert('Send confirmation mail.'))
       .catch( err => {

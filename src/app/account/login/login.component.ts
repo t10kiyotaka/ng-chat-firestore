@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { SessionService } from '../../core/service/session.service';
-import { Password } from '../../class/password';
+import { User } from '../../class/user';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
   password = new FormControl('', [Validators.required, Validators.minLength(6)]);
   hide = true;
-  account = new Password();
+  user = new User();
 
 
   constructor(private sessionService: SessionService) {
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
 
   login(e: Event) {
     e.preventDefault();
-    this.sessionService.login(this.account);
+    this.sessionService.login(this.user);
   }
 
 }

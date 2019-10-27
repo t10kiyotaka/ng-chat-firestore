@@ -2,16 +2,27 @@
   <h1>Sign up</h1>
 
   <form (ngSubmit)="signUp($event)">
+
+    <mat-form-field class="w-full">
+      <input
+        matInput placeholder="Enter your user name"
+        [formControl]="name"
+        required
+        [(ngModel)]="user.name"
+        name="username"
+        autofocus>
+      <mat-error *ngIf="name.invalid">Enter your user name.</mat-error>
+    </mat-form-field>
+
     <mat-form-field class="w-full">
       <input
         matInput placeholder="Enter your email"
         [formControl]="email"
         required
-        [(ngModel)]="account.email"
+        [(ngModel)]="user.email"
         name="email"
-        autocomplete="username email"
-        autofocus>
-      <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+        autocomplete="username email">
+      <mat-error *ngIf="email.invalid">{{getErrorMessageForEmail()}}</mat-error>
     </mat-form-field>
 
     <mat-form-field class="w-full">
@@ -22,7 +33,7 @@
         name="password"
         required
         id="inputPassword"
-        [(ngModel)]="account.password"
+        [(ngModel)]="user.password"
         autocomplete="new-password">
       <mat-error *ngIf="password.invalid">{{getErrorMessageForPassword()}}</mat-error>
       <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
