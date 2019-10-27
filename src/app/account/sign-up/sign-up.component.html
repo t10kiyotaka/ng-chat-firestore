@@ -1,14 +1,30 @@
 <section class="example-container">
   <h1>Sign up</h1>
 
-  <form>
+  <form (ngSubmit)="signUp($event)" #signUpForm="ngForm">
     <mat-form-field class="w-full">
-      <input matInput placeholder="Enter your email" [formControl]="email" required>
+      <input
+        matInput placeholder="Enter your email"
+        [formControl]="email"
+        required
+        [(ngModel)]="account.email"
+        name="email"
+        autocomplete="username email"
+        autofocus>
       <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
 
     <mat-form-field class="w-full">
-      <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'">
+      <input
+        matInput placeholder="Enter your password (at least 6 characters.)"
+        [type]="hide ? 'password' : 'text'"
+        [formControl]="password"
+        name="password"
+        required
+        id="inputPassword"
+        [(ngModel)]="account.password"
+        autocomplete="new-password">
+      <mat-error *ngIf="password.invalid">{{getErrorMessageForPassword()}}</mat-error>
       <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
@@ -17,7 +33,9 @@
     <button
       mat-raised-button
       color="primary"
-      class="w-full">Sign up</button>
+      class="w-full"
+      [disabled]="!isValid()">Sign up</button>
+
   </form>
   <button mat-button color="primary"
           routerLink="/account/login">Login</button>
