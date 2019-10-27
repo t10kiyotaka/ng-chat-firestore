@@ -17,12 +17,12 @@
     <mat-form-field class="w-full">
       <input
         matInput placeholder="Enter your password (at least 6 characters.)"
-        [type]="hide ? 'user.ts' : 'text'"
+        [type]="hide ? 'userAccount.ts.ts' : 'text'"
         [formControl]="password"
         name="password"
         required
         id="inputPassword"
-        [(ngModel)]="user.user"
+        [(ngModel)]="user.userAccount"
         autocomplete="new-password">
       <mat-error *ngIf="password.invalid">{{getErrorMessageForPassword()}}</mat-error>
       <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">

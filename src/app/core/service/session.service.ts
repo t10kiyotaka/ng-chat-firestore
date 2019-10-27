@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { Session } from '../../class/session';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { User } from '../../class/user';
+import { UserAccount } from '../../class/userAccount';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -20,7 +20,7 @@ export class SessionService {
               private angularFireAuth: AngularFireAuth) {
   }
 
-  login(user: User) {
+  login(user: UserAccount) {
     this.angularFireAuth
       .auth
       .signInWithEmailAndPassword(user.email, user.password)
@@ -58,7 +58,7 @@ export class SessionService {
       });
   }
 
-  signup(user: User) {
+  signup(user: UserAccount) {
     this.angularFireAuth
       .auth
       .createUserWithEmailAndPassword(user.email, user.password)
