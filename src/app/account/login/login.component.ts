@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { SessionService } from '../../core/service/session.service';
+import { Password } from '../../class/password';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,9 @@ import { SessionService } from '../../core/service/session.service';
 })
 export class LoginComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
+  password = new FormControl('', [Validators.required, Validators.minLength(6)]);
   hide = true;
+  account = new Password();
 
 
   constructor(private sessionService: SessionService) {
@@ -24,8 +27,20 @@ export class LoginComponent implements OnInit {
         '';
   }
 
-  // login() {
-  //   this.sessionService.login();
-  // }
+  getErrorMessageForPassword() {
+    return this.password.hasError('required') ? 'You must enter a value' :
+      this.password.hasError('minlength') ? 'Password must be at least 6 characters.' :
+        '';
+  }
+
+
+  isValid() {
+    return this.email.valid && this.password.valid;
+  }
+
+  login(e: Event) {
+    e.preventDefault();
+    this.sessionService.login(this.account);
+  }
 
 }

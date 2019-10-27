@@ -9,7 +9,6 @@ import { Password } from '../../class/password';
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit {
-  @ViewChild('signUpForm', {static: false}) signUpForm: NgForm;
   email = new FormControl('', [Validators.required, Validators.email]);
   password = new FormControl('', [Validators.required, Validators.minLength(6)]);
   hide = true;
