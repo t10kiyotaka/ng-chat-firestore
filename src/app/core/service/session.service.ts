@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Session } from '../../class/session';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Password } from '../../class/password';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -67,5 +68,14 @@ export class SessionService {
         console.log(err);
         alert('Failed to create an account.\n' + err);
       });
+  }
+
+
+  checkLoginState(): Observable<Session> {
+    return this.angularFireAuth
+      .authState.pipe(map(auth => {
+        this.session.isLogin = !!auth;
+        return this.session;
+    }));
   }
 }
