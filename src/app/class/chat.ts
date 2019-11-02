@@ -1,12 +1,12 @@
 import * as moment from 'moment';
 
 export class User {
-  uid: number;
+  uid: string;
   name: string;
 
-  constructor(uid: number, name: string) {
-    this.uid = uid;
-    this.name = name;
+  constructor(uid?: string, name?: string) {
+    this.uid = uid ? uid : '';
+    this.name = name ? name : '';
   }
 
   deserialize() {

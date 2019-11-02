@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { Session } from '../../class/session';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { UserAccount } from '../../class/userAccount';
-import { map } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { User } from '../../class/chat';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +19,11 @@ export class SessionService {
 
 
   constructor(private router: Router,
-              private angularFireAuth: AngularFireAuth) {
+              private angularFireAuth: AngularFireAuth,
+              private afStore: AngularFirestore) {
   }
 
-  login(user: UserAccount) {
+  login(user: UserAccount): void {
     this.angularFireAuth
       .auth
       .signInWithEmailAndPassword(user.email, user.password)
@@ -42,7 +45,7 @@ export class SessionService {
       });
   }
 
-  logout() {
+  logout(): void {
     this.angularFireAuth
       .auth.signOut()
       .then(() => {
@@ -50,6 +53,7 @@ export class SessionService {
         return this.router.navigate(['/account/login']);
       })
       .then(() => {
+        this.sessionSubject.next(this.session.reset());
         alert('Logged out.');
       })
       .catch(err => {
@@ -58,7 +62,7 @@ export class SessionService {
       });
   }
 
-  signup(user: UserAccount) {
+  signup(user: UserAccount): void {
     this.angularFireAuth
       .auth
       .createUserWithEmailAndPassword(user.email, user.password)
@@ -78,4 +82,49 @@ export class SessionService {
         return this.session;
     }));
   }
+
+  checkLogin(): void {
+    this.angularFireAuth
+      .authState
+      .pipe(
+        switchMap(auth => {
+          if (auth) {
+            return this.getUser(auth.uid);
+          } else {
+            return of(null);
+          }
+        })
+      )
+      .subscribe(auth => {
+        this.session.isLogin = !!auth;
+        this.session.user = auth ? auth : new User();
+        this.sessionSubject.next(this.session);
+      });
+  }
+
+  isCurrentUser(targetUId: string) {
+    return this.angularFireAuth.authState.subscribe(auth => {
+      return auth.uid === targetUId;
+    });
+  }
+
+  private createUser(user: User): Promise<void> {
+    return this.afStore
+      .collection('users')
+      .doc(user.uid)
+      .set(user.deserialize());
+  }
+
+  private getUser(uid: string): Observable<any> {
+    return this.afStore
+      .collection('users')
+      .doc(uid)
+      .valueChanges()
+      .pipe(
+        take(1),
+        switchMap((user: User) =>
+          of(new User(uid, user.name)))
+      );
+  }
+
 }
