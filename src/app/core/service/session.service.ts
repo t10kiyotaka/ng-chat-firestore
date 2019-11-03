@@ -49,7 +49,6 @@ export class SessionService {
     this.angularFireAuth
       .auth.signOut()
       .then(() => {
-        this.sessionSubject.next(this.session.reset());
         return this.router.navigate(['/account/login']);
       })
       .then(() => {
@@ -63,11 +62,24 @@ export class SessionService {
   }
 
   signup(user: UserAccount): void {
+    let auth;
     this.angularFireAuth
       .auth
       .createUserWithEmailAndPassword(user.email, user.password)
-      .then(auth => auth.user.sendEmailVerification())
-      .then(() => alert('Send confirmation mail.'))
+      .then(authUser => {
+        auth = authUser;
+        return auth.user.sendEmailVerification();
+      })
+      .then(() => {
+        return this.createUser(new User(auth.user.uid, user.name));
+      })
+      .then(() => {
+        this.angularFireAuth.auth.signOut();
+      })
+      .then(() => {
+        user.reset();
+        alert('Sent confirmation mail');
+      })
       .catch( err => {
         console.log(err);
         alert('Failed to create an account.\n' + err);

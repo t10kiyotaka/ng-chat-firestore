@@ -13,7 +13,8 @@ export class LoginGuard implements CanActivate {
               private router: Router) {}
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.sessionService.checkLoginState()
       .pipe(map(session => {
         // If Logged in, navigate to root directory.

@@ -6,9 +6,15 @@
       <ng-container *ngFor="let comment of comments | async">
         <div class="media">
 
-          <div class="media-left media-icon" *ngIf="!isCurrentUser(comment.user.uid)">
+          <div class="media-left media-icon">
             <a href="#" class="icon-rounded">{{ comment.initial }}</a>
           </div>
+
+          <div (click)="check()">
+            check
+<!--            {{ currentUser.name }}-->
+          </div>
+          <button (click)="check()">check</button>
 
           <div class="media-body">
             <h4 class="media-heading">
@@ -43,9 +49,9 @@
 
           </div>
 
-          <div class="media-right media-icon" *ngIf="isCurrentUser(comment.user.uid)">
-            <a href="#" class="icon-rounded">{{ comment.initial }}</a>
-          </div>
+<!--          <div class="media-right media-icon" *ngIf="isCurrentUser(comment.user.uid)">-->
+<!--            <a href="#" class="icon-rounded">{{ comment.initial }}</a>-->
+<!--          </div>-->
 
         </div>
         <hr>
@@ -61,6 +67,7 @@
                   autofocus
                   placeholder="Leave a comment"
                   name="comment"
+                  id="comment"
                   [(ngModel)]="content"></textarea>
       </mat-form-field>
       <button mat-raised-button color="primary">Send</button>

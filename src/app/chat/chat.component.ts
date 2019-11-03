@@ -5,6 +5,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { MatSnackBar } from '@angular/material';
 import { map } from 'rxjs/operators';
 import { SessionService } from '../core/service/session.service';
+import { Session } from '../class/session';
 
 
 @Component({
@@ -23,13 +24,7 @@ export class ChatComponent implements OnInit {
 
   constructor(private db: AngularFirestore,
               private snackBar: MatSnackBar,
-              private sessionService: SessionService) {
-    this.sessionService
-      .sessionState
-      .subscribe(data => {
-        this.currentUser = data.user;
-      });
-  }
+              private sessionService: SessionService) {}
 
   ngOnInit() {
 
@@ -46,19 +41,28 @@ export class ChatComponent implements OnInit {
           const key = action.payload.doc.id;
           const commentData = new Comment(data.user, data.content);
           commentData.setData(data.date, key);
+          console.log(commentData);
           return commentData;
         }))
       );
+
+    this.sessionService
+      .sessionState
+      .subscribe((data: Session) => {
+        this.currentUser = data.user;
+      });
+    this.sessionService.checkLogin();
   }
 
 
 
-  isCurrentUser(targetUid: string): boolean {
-    return this.currentUser.uid === targetUid;
-  }
+  // isCurrentUser(targetUid: string): boolean {
+  //   return this.currentUser.uid === targetUid;
+  // }
 
   addComment(e: Event, comment: string) {
     e.preventDefault();
+    console.log('currentUser: ' + this.currentUser);
     if (comment) {
       this.db
         .collection('comments')
