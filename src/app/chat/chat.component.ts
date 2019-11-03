@@ -24,7 +24,14 @@ export class ChatComponent implements OnInit {
 
   constructor(private db: AngularFirestore,
               private snackBar: MatSnackBar,
-              private sessionService: SessionService) {}
+              private sessionService: SessionService) {
+    this.sessionService
+      .sessionState
+      .subscribe((data: Session) => {
+        this.currentUser = data.user;
+        console.log('Here is constructor: ' + this.currentUser);
+      });
+  }
 
   ngOnInit() {
 
@@ -46,12 +53,8 @@ export class ChatComponent implements OnInit {
         }))
       );
 
-    this.sessionService
-      .sessionState
-      .subscribe((data: Session) => {
-        this.currentUser = data.user;
-      });
-    this.sessionService.checkLogin();
+    this.sessionService.next();
+
   }
 
 

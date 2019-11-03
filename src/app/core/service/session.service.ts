@@ -20,7 +20,10 @@ export class SessionService {
 
   constructor(private router: Router,
               private angularFireAuth: AngularFireAuth,
-              private afStore: AngularFirestore) {
+              private afStore: AngularFirestore) {}
+
+  next() {
+    this.sessionSubject.next(this.session);
   }
 
   login(user: UserAccount): void {
