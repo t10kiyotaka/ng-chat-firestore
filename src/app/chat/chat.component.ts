@@ -53,6 +53,11 @@ export class ChatComponent implements OnInit {
         }))
       );
 
+    /*
+      Fix me:
+      Below one line is needed for getting currentUser for now.
+      But better way must exist.
+     */
     this.sessionService.next();
 
   }
